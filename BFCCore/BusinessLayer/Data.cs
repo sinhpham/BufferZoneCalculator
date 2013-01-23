@@ -36,6 +36,11 @@ namespace BFCCore.BusinessLayer
         public int Id { get; set; }
         public int NozzleId { get; set; }
         public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 
     public class Pressure
@@ -43,6 +48,12 @@ namespace BFCCore.BusinessLayer
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public int NozzleId { get; set; }
+        public double Value { get; set; }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 
     public class CalcSprayQuality

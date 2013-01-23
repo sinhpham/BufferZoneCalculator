@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
+using System.Diagnostics;
 
 namespace BFCCore.DataLayer
 {
@@ -64,6 +66,48 @@ namespace BFCCore.DataLayer
                 ret.Add(r);
             }
             return ret;
+        }
+
+        public static IList<Nozzle> GetNozzleFor(Manufacturer man)
+        {
+            var ret = from n in _db.Table<Nozzle>()
+                      where n.ManufacturerId == man.Id
+                      select n;
+            return ret.ToList();
+        }
+
+        public static IList<Pressure> GetPressureFor(Nozzle nozzle)
+        {
+            var ret = from p in _db.Table<Pressure>()
+                      where p.NozzleId == nozzle.Id
+                      select p;
+            return ret.ToList();
+        }
+
+        public static IList<WaterFlow> GetWaterFlowFor(Nozzle nozzle)
+        {
+            var ret = from wf in _db.Table<WaterFlow>()
+                      where wf.NozzleId == nozzle.Id
+                      select wf;
+            return ret.ToList();
+        }
+
+        public static SprayQuality GetSprayQualityFor(Pressure p, WaterFlow wf)
+        {
+            var retCsq = from csq in _db.Table<CalcSprayQuality>()
+                         where csq.PressureId == p.Id && csq.WaterFlowId == wf.Id
+                         select csq;
+            Debug.Assert(retCsq.Count() == 1);
+
+            // Work around, use local variable.
+            var sqid = retCsq.First().SprayQualityId;
+            var ret = from sq in _db.Table<SprayQuality>()
+                      where sq.Id == sqid
+                      select sq;
+            Debug.Assert(ret.Count() == 1);
+
+            return ret.First();
+
         }
     }
 }

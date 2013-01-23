@@ -27,7 +27,6 @@ namespace BFCAndroid.View
             var adap = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, _items);
             ListAdapter = adap;
             ListView.TextFilterEnabled = true;
-            ListView.ItemClick += ListView_ItemClick;
             ListView.ChoiceMode = ChoiceMode.Multiple;
 
             _listWhat = Intent.GetStringExtra("pick");
@@ -39,6 +38,27 @@ namespace BFCAndroid.View
                         Title = "Pick Manufacturer";
                         var manu = BFCDatabase.GetTable<Manufacturer>();
                         DisplayListOnUI(manu);
+                    }
+                    break;
+                case "nozzle":
+                    {
+                        Title = "Pick nozzle";
+                        var n = BFCDatabase.GetNozzleFor(BFCAndroidGlobal.SelectedManufacturer);
+                        DisplayListOnUI(n);
+                    }
+                    break;
+                case "pressure":
+                    {
+                        Title = "Pick pressure";
+                        var p = BFCDatabase.GetPressureFor(BFCAndroidGlobal.SelectedNozzle);
+                        DisplayListOnUI(p);
+                    }
+                    break;
+                case "waterflow":
+                    {
+                        Title = "Pick water flow";
+                        var wf = BFCDatabase.GetWaterFlowFor(BFCAndroidGlobal.SelectedNozzle);
+                        DisplayListOnUI(wf);
                     }
                     break;
                 default:
@@ -57,6 +77,8 @@ namespace BFCAndroid.View
         JavaList<string> _items = new JavaList<string>();
         string _listWhat;
         const int Pick_Nozzle = 0;
+        const int Pick_Pressure = 1;
+        const int Pick_WaterFlow = 2;
         List<object> _selectionList = new List<object>();
 
         private void DisplayListOnUI<T>(IEnumerable<T> list)
@@ -74,16 +96,48 @@ namespace BFCAndroid.View
             });
         }
 
-        private void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        protected override void OnListItemClick(ListView l, Android.Views.View v, int position, long id)
         {
+            base.OnListItemClick(l, v, position, id);
             switch (_listWhat)
             {
                 case "manufacturer":
                     {
+                        BFCAndroidGlobal.SelectedManufacturer = (Manufacturer)_selectionList[position];
+
                         var intent = new Intent(this, typeof(View.SelectItem));
                         intent.PutExtra("pick", "nozzle");
-
                         StartActivityForResult(intent, Pick_Nozzle);
+                    }
+                    break;
+                case "nozzle":
+                    {
+                        BFCAndroidGlobal.SelectedNozzle = (Nozzle)_selectionList[position];
+
+                        var intent = new Intent(this, typeof(View.SelectItem));
+                        intent.PutExtra("pick", "pressure");
+                        StartActivityForResult(intent, Pick_Pressure);
+                    }
+                    break;
+                case "pressure":
+                    {
+                        BFCAndroidGlobal.SelectedPressure = (Pressure)_selectionList[position];
+
+                        var intent = new Intent(this, typeof(View.SelectItem));
+                        intent.PutExtra("pick", "waterflow");
+                        StartActivityForResult(intent, Pick_Pressure);
+                    }
+                    break;
+                case "waterflow":
+                    {
+                        BFCAndroidGlobal.SelectedWaterFlow = (WaterFlow)_selectionList[position];
+                        var sq = BFCDatabase.GetSprayQualityFor(BFCAndroidGlobal.SelectedPressure, BFCAndroidGlobal.SelectedWaterFlow);
+                        BFCAndroidGlobal.SelectedSprayQuality = sq;
+
+                        System.Diagnostics.Debug.WriteLine("Selected sq: {0} {1}", sq.Id, sq.Name);
+
+                        SetResult(Result.Ok);
+                        Finish();
                     }
                     break;
                 default:
