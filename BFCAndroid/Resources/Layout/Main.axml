@@ -91,7 +91,7 @@
                 p1:layout_width="100dp"
                 p1:layout_height="wrap_content"
                 p1:id="@+id/addProblemButton"
-                p1:onClick="addProblemClicked" />
+                p1:onClick="SprayQualityCaclClicked" />
         </LinearLayout>
         <Spinner
             p1:layout_width="250dp"

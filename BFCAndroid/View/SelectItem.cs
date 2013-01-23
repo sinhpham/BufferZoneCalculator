@@ -9,19 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using BFCCore.BusinessLayer;
+using BFCCore.DataLayer;
 
 namespace BFCAndroid.View
 {
     [Activity]
     public class SelectItem : ListActivity
     {
-        JavaList<string> _items = new JavaList<string>();
-        string _listWhat;
-        const int Pick_Crop_Stage = 0;
-        const int Pick_Weed = 1;
-        const int Pick_Weed_Stage = 2;
-        List<object> _selectionList = new List<object>();
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -39,7 +34,13 @@ namespace BFCAndroid.View
 
             switch (_listWhat)
             {
-                
+                case "manufacturer":
+                    {
+                        Title = "Pick Manufacturer";
+                        var manu = BFCDatabase.GetTable<Manufacturer>();
+                        DisplayListOnUI(manu);
+                    }
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid list type");
             }
@@ -52,6 +53,11 @@ namespace BFCAndroid.View
                 ((ArrayAdapter<string>)ListAdapter).Filter.InvokeFilter(et.Text);
             };
         }
+
+        JavaList<string> _items = new JavaList<string>();
+        string _listWhat;
+        const int Pick_Nozzle = 0;
+        List<object> _selectionList = new List<object>();
 
         private void DisplayListOnUI<T>(IEnumerable<T> list)
         {
@@ -72,7 +78,14 @@ namespace BFCAndroid.View
         {
             switch (_listWhat)
             {
-                
+                case "manufacturer":
+                    {
+                        var intent = new Intent(this, typeof(View.SelectItem));
+                        intent.PutExtra("pick", "nozzle");
+
+                        StartActivityForResult(intent, Pick_Nozzle);
+                    }
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid list type");
             }

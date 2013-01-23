@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using BFCCore.DataLayer;
 using System.Collections.Generic;
 using BFCCore.BusinessLayer;
+using Java.Interop;
 
 namespace BFCAndroid
 {
@@ -24,11 +25,18 @@ namespace BFCAndroid
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            var appMethods = new string[] { "Ground", "Aerial", "blah", "blah" };
+            var appMethods = new string[] {
+                "Ground",
+                "Aerial",
+                "blah",
+                "blah"
+            };
             SetSpinnerData(Resource.Id.appMethodsSpinner, appMethods);
 
             RefreshOptions();
         }
+
+        const int Pick_Manufacturer = 0;
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -119,11 +127,25 @@ namespace BFCAndroid
                 };
                 BFCDatabase.AddToDb(labelSprayQualitys);
 
+                var manufacturers = new List<Manufacturer> {
+                    new Manufacturer{Id = 0, Name = "Tee jet"}
+                };
+                BFCDatabase.AddToDb(manufacturers);
+
                 RunOnUiThread(() =>
                 {
                     Toast.MakeText(this, "Done updating database", ToastLength.Long).Show();
                 });
             });
+        }
+
+        [Export]
+        public void SprayQualityCaclClicked(Android.Views.View v)
+        {
+            var intent = new Intent(this, typeof(View.SelectItem));
+            intent.PutExtra("pick", "manufacturer");
+
+            StartActivityForResult(intent, Pick_Manufacturer);
         }
     }
 }

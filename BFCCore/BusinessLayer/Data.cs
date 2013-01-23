@@ -10,6 +10,11 @@ namespace BFCCore.BusinessLayer
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class Nozzle
@@ -18,6 +23,11 @@ namespace BFCCore.BusinessLayer
         public int Id { get; set; }
         public int ManufacturerId { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class WaterFlow
