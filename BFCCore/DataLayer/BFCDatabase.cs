@@ -107,7 +107,21 @@ namespace BFCCore.DataLayer
             Debug.Assert(ret.Count() == 1);
 
             return ret.First();
+        }
 
+        public static double? GetMultiplierFor(SprayQuality sq, LabelSprayQuality lsq, BoomHeight bh, WindSpeed ws)
+        {
+            // Work around, use local variable
+            var sqId = sq.Id;
+            var lsqId = lsq.Id;
+            var bhId = bh.Id;
+            var wsId = ws.Id;
+            var ret = from m in _db.Table<Multiplier>()
+                      where m.SprayQualityId == sqId && m.LabelSprayQualityId == lsqId && m.BoomHeightId == bhId && m.WindSpeedId == wsId
+                      select m;
+            Debug.Assert(ret.Count() == 1);
+            var f = ret.FirstOrDefault();
+            return f != null ? f.Value : (double?)null;
         }
     }
 }

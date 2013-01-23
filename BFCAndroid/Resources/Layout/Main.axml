@@ -17,21 +17,20 @@
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/textView1" />
-        <Spinner
+        <Button
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView1"
-            p1:id="@+id/appMethodsSpinner" />
+            p1:onClick="AppMethodClicked" />
         <TextView
             p1:text="Label spray quality"
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/textView2" />
-        <Spinner
+        <Button
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/labelSpraySpinner" />
+            p1:onClick="LabelSprayClicked" />
         <TextView
             p1:text="Buffer zone aquatic"
             p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -42,7 +41,8 @@
         <EditText
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/editText1" />
+            p1:inputType="number"
+            p1:id="@+id/editBfAquatic" />
         <TextView
             p1:text="Buffer zone terrestrial"
             p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -53,7 +53,8 @@
         <EditText
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/editText2" />
+            p1:inputType="number"
+            p1:id="@+id/editBfTerrestrial" />
         <TextView
             p1:text="Boom height"
             p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -61,10 +62,10 @@
             p1:layout_height="wrap_content"
             p1:layout_below="@id/textView4"
             p1:id="@+id/textView5" />
-        <Spinner
+        <Button
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/boomHeightSpinner" />
+            p1:onClick="BoomHeightClicked" />
         <TextView
             p1:text="Wind speed"
             p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -72,10 +73,10 @@
             p1:layout_height="wrap_content"
             p1:layout_below="@id/textView5"
             p1:id="@+id/textView6" />
-        <Spinner
+        <Button
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/windSpeedSpinner" />
+            p1:onClick="WindSpeedClicked" />
         <LinearLayout
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content">
@@ -93,10 +94,11 @@
                 p1:id="@+id/addProblemButton"
                 p1:onClick="SprayQualityCaclClicked" />
         </LinearLayout>
-        <Spinner
+        <Button
             p1:layout_width="250dp"
             p1:layout_height="wrap_content"
-            p1:id="@+id/sprayQualitySpinner" />
+            p1:id="@+id/sprayQualityButton"
+            p1:onClick="SprayQualityClicked" />
         <TextView
             p1:text="Result"
             p1:textAppearance="?android:attr/textAppearanceLarge"
@@ -109,12 +111,12 @@
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="fill_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView9" />
+            p1:id="@+id/resBfAquaticTextView" />
         <TextView
             p1:text="Buffer zone terrestrial:"
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="fill_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView10" />
+            p1:id="@+id/resBfTerrestrialTextView" />
     </LinearLayout>
 </ScrollView>

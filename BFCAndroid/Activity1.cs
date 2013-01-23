@@ -24,16 +24,6 @@ namespace BFCAndroid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
-            var appMethods = new string[] {
-                "Ground",
-                "Aerial",
-                "blah",
-                "blah"
-            };
-            SetSpinnerData(Resource.Id.appMethodsSpinner, appMethods);
-
-            RefreshOptions();
         }
 
         const int Pick_Manufacturer = 0;
@@ -41,7 +31,6 @@ namespace BFCAndroid
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             menu.Add("update");
-            menu.Add("refresh");
             return true;
         }
 
@@ -53,9 +42,6 @@ namespace BFCAndroid
                 case "update":
                     UpdateDatabase();
                     break;
-                case "refresh":
-                    RefreshOptions();
-                    break;
                 default:
                     {
                         var toast = Toast.MakeText(this, item.TitleFormatted, ToastLength.Long);
@@ -64,33 +50,6 @@ namespace BFCAndroid
                     break;
             }
             return base.OnOptionsItemSelected(item);
-        }
-
-        private void RefreshOptions()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                var sq = BFCDatabase.GetTable<SprayQuality>().Select(a => a.Name).ToArray();
-                var ws = BFCDatabase.GetTable<WindSpeed>().Select(a => string.Format("From {0} to {1}", a.Min, a.Max)).ToArray();
-                var bh = BFCDatabase.GetTable<BoomHeight>().Select(a => a.Name).ToArray();
-                var lsq = BFCDatabase.GetTable<LabelSprayQuality>().Select(a => a.Name).ToArray();
-
-                RunOnUiThread(() =>
-                {
-                    SetSpinnerData(Resource.Id.sprayQualitySpinner, sq);
-                    SetSpinnerData(Resource.Id.windSpeedSpinner, ws);
-                    SetSpinnerData(Resource.Id.boomHeightSpinner, bh);
-                    SetSpinnerData(Resource.Id.labelSpraySpinner, lsq);
-                });
-            });
-        }
-
-        private void SetSpinnerData(int spinId, string[] data)
-        {
-            var spin = FindViewById<Spinner>(spinId);
-            var adap = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, data);
-            adap.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            spin.Adapter = adap;
         }
 
         private void UpdateDatabase()
@@ -102,14 +61,15 @@ namespace BFCAndroid
 
                 var sprayQualitys = new List<SprayQuality> {
                     new SprayQuality{Id = 1, Name = "Coarse"},
-                    new SprayQuality{Id = 2, Name = "Fine"},
-                    new SprayQuality{Id = 3, Name = "Medium"}
+                    new SprayQuality{Id = 2, Name = "Medium"},
+                    new SprayQuality{Id = 3, Name = "Fine"}
                 };
                 BFCDatabase.AddToDb(sprayQualitys);
 
                 var windSpeeds = new List<WindSpeed> {
                     new WindSpeed{Id = 1, Max = 8, Min = 1},
-                    new WindSpeed{Id = 2, Max = 16, Min = 9}
+                    new WindSpeed{Id = 2, Max = 16, Min = 9},
+                    new WindSpeed{Id = 3, Max = 25, Min = 17}
                 };
                 BFCDatabase.AddToDb(windSpeeds);
 
@@ -122,8 +82,8 @@ namespace BFCAndroid
 
                 var labelSprayQualitys = new List<LabelSprayQuality> {
                     new LabelSprayQuality{Id = 1, Name = "Coarse"},
-                    new LabelSprayQuality{Id = 2, Name = "Fine"},
-                    new LabelSprayQuality{Id = 3, Name = "Medium"}
+                    new LabelSprayQuality{Id = 2, Name = "Medium"},
+                    new LabelSprayQuality{Id = 3, Name = "Fine"}
                 };
                 BFCDatabase.AddToDb(labelSprayQualitys);
 
@@ -160,10 +120,126 @@ namespace BFCAndroid
                 };
                 BFCDatabase.AddToDb(csq);
 
+                var multi = new List<Multiplier> {
+                    new Multiplier{SprayQualityId = 1, LabelSprayQualityId = 1, BoomHeightId = 1, WindSpeedId = 1, Value = 2},
+                    new Multiplier{SprayQualityId = 2, LabelSprayQualityId = 2, BoomHeightId = 2, WindSpeedId = 2, Value = 4},
+                    new Multiplier{SprayQualityId = 3, LabelSprayQualityId = 3, BoomHeightId = 3, WindSpeedId = 3, Value = 8},
+                };
+                BFCDatabase.AddToDb(multi);
+
                 RunOnUiThread(() =>
                 {
                     Toast.MakeText(this, "Done updating database", ToastLength.Long).Show();
                 });
+            });
+        }
+
+        private void RefreshResult()
+        {
+            var bfAquatic = -1;
+            var okBfAquatic = int.TryParse(FindViewById<EditText>(Resource.Id.editBfAquatic).Text, out bfAquatic);
+            var bfTerrestrial = -1;
+            var okBfTerrestrial = int.TryParse(FindViewById<EditText>(Resource.Id.editBfTerrestrial).Text, out bfTerrestrial);
+
+            var resAquatic = FindViewById<TextView>(Resource.Id.resBfAquaticTextView);
+            var resTerrestrial = FindViewById<TextView>(Resource.Id.resBfTerrestrialTextView);
+
+
+            if (BFCAndroidGlobal.SelectedSprayQuality == null ||
+                BFCAndroidGlobal.SelectedLabelSprayQuality == null ||
+                BFCAndroidGlobal.SelectedBoomHeight == null ||
+                BFCAndroidGlobal.SelectedWindSpeed == null ||
+                !okBfAquatic || !okBfTerrestrial)
+            {
+                resAquatic.Text = "Buffer zone aquatic:";
+                resTerrestrial.Text = "Buffer zone terrestrial:";
+                return;
+            }
+
+            var m = BFCDatabase.GetMultiplierFor(BFCAndroidGlobal.SelectedSprayQuality, BFCAndroidGlobal.SelectedLabelSprayQuality,
+                BFCAndroidGlobal.SelectedBoomHeight, BFCAndroidGlobal.SelectedWindSpeed);
+            if (!m.HasValue)
+            {
+                resAquatic.Text = string.Format("Buffer zone aquatic: {0}", "not found");
+                resTerrestrial.Text = string.Format("Buffer zone terrestrial: {0}", "not found");
+            }
+            else
+            {
+                resAquatic.Text = string.Format("Buffer zone aquatic: {0}", m.Value * bfAquatic);
+                resTerrestrial.Text = string.Format("Buffer zone terrestrial: {0}", m.Value * bfTerrestrial);
+            }
+        }
+
+        private void CreateSelectDialog<T>(IList<T> list, Func<T, string> display, string title, Action<T> selectedAction)
+        {
+            // Return selected index
+            var displayList = list.Select(display).ToArray();
+            var adap = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, displayList);
+
+            new AlertDialog.Builder(this)
+            .SetTitle(title)
+            .SetSingleChoiceItems(adap, -1, (s, arg) =>
+            {
+                var ad = (AlertDialog)s;
+                var pos = ad.ListView.CheckedItemPosition;
+                ad.Dismiss();
+                selectedAction(list[pos]);
+            }).Create().Show();
+        }
+
+        [Export]
+        public void AppMethodClicked(Android.Views.View v)
+        {
+            var appMethods = new string[] {
+                "Ground",
+                "Aerial",
+                "blah",
+                "blah"
+            };
+            CreateSelectDialog<string>(appMethods, x => x, "Choose application method", selected =>
+            {
+                var b = (Button)v;
+                b.Text = selected;
+                RefreshResult();
+            });
+        }
+
+        [Export]
+        public void LabelSprayClicked(Android.Views.View v)
+        {
+            var lsq = BFCDatabase.GetTable<LabelSprayQuality>();
+            CreateSelectDialog<LabelSprayQuality>(lsq, x => x.Name, "Choose label spray quality", selected =>
+            {
+                var b = (Button)v;
+                b.Text = selected.Name;
+                BFCAndroidGlobal.SelectedLabelSprayQuality = selected;
+                RefreshResult();
+            });
+        }
+
+        [Export]
+        public void BoomHeightClicked(Android.Views.View v)
+        {
+            var bh = BFCDatabase.GetTable<BoomHeight>();
+            CreateSelectDialog<BoomHeight>(bh, x => x.Name, "Choose boom height", selected =>
+            {
+                var b = (Button)v;
+                b.Text = selected.Name;
+                BFCAndroidGlobal.SelectedBoomHeight = selected;
+                RefreshResult();
+            });
+        }
+
+        [Export]
+        public void WindSpeedClicked(Android.Views.View v)
+        {
+            var ws = BFCDatabase.GetTable<WindSpeed>();
+            CreateSelectDialog<WindSpeed>(ws, x => string.Format("From {0} to {1}", x.Min, x.Max), "Choose wind speed", selected =>
+            {
+                var b = (Button)v;
+                b.Text = string.Format("From {0} to {1}", selected.Min, selected.Max);
+                BFCAndroidGlobal.SelectedWindSpeed = selected;
+                RefreshResult();
             });
         }
 
@@ -174,6 +250,29 @@ namespace BFCAndroid
             intent.PutExtra("pick", "manufacturer");
 
             StartActivityForResult(intent, Pick_Manufacturer);
+        }
+
+        [Export]
+        public void SprayQualityClicked(Android.Views.View v)
+        {
+            var sq = BFCDatabase.GetTable<SprayQuality>();
+            CreateSelectDialog<SprayQuality>(sq, x => x.Name, "Choose spray quality", selected =>
+            {
+                var b = (Button)v;
+                b.Text = selected.Name;
+                BFCAndroidGlobal.SelectedSprayQuality = selected;
+                RefreshResult();
+            });
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            if (resultCode == Result.Ok && requestCode == Pick_Manufacturer)
+            {
+                var b = FindViewById<Button>(Resource.Id.sprayQualityButton);
+                b.Text = BFCAndroidGlobal.SelectedSprayQuality.Name;
+                RefreshResult();
+            }
         }
     }
 }

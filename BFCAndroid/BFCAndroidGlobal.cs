@@ -13,6 +13,8 @@ namespace BFCAndroid
         public static WaterFlow SelectedWaterFlow { get; set; }
 
         public static SprayQuality SelectedSprayQuality { get; set; }
-        
+        public static LabelSprayQuality SelectedLabelSprayQuality { get; set; }
+        public static BoomHeight SelectedBoomHeight { get; set; }
+        public static WindSpeed SelectedWindSpeed { get; set; }
     }
 }
