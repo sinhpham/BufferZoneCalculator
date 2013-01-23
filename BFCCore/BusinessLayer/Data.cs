@@ -72,14 +72,6 @@ namespace BFCCore.BusinessLayer
         public string Name { get; set; }
     }
 
-    public class WindSpeed
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
-    }
-
     public class LabelSprayQuality
     {
         [PrimaryKey, AutoIncrement]
@@ -94,16 +86,25 @@ namespace BFCCore.BusinessLayer
         public string Name { get; set; }
     }
 
+    public class WindSpeed
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+    }
+
     public class Multiplier
     {
         [Indexed]
-        public int WindSpeedId { get; set; }
+        public int SprayQualityId { get; set; }
         [Indexed]
         public int LabelSprayQualityId { get; set; }
         [Indexed]
-        public int SprayQualityId { get; set; }
-        [Indexed]
         public int BoomHeightId { get; set; }
+        [Indexed]
+        public int WindSpeedId { get; set; }
+
         public double Value { get; set; }
     }
 }
