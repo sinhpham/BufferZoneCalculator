@@ -7,7 +7,7 @@ namespace BFCCore.BusinessLayer
 {
     public class Manufacturer
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -19,7 +19,7 @@ namespace BFCCore.BusinessLayer
 
     public class Nozzle
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public int ManufacturerId { get; set; }
         public string Name { get; set; }
@@ -32,7 +32,7 @@ namespace BFCCore.BusinessLayer
 
     public class WaterFlow
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public int NozzleId { get; set; }
         public string Value { get; set; }
@@ -45,7 +45,7 @@ namespace BFCCore.BusinessLayer
 
     public class Pressure
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public int NozzleId { get; set; }
         public double Value { get; set; }
@@ -67,28 +67,28 @@ namespace BFCCore.BusinessLayer
 
     public class SprayQuality
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
     public class LabelSprayQuality
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
     public class BoomHeight
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
     public class WindSpeed
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public int Min { get; set; }
         public int Max { get; set; }
