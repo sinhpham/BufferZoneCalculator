@@ -21,6 +21,8 @@ namespace BFCAndroid.View
         {
             base.OnCreate(bundle);
 
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetHomeButtonEnabled(true);
             // Create your application here
             SetContentView(Resource.Layout.SelectItem);
 
@@ -94,6 +96,19 @@ namespace BFCAndroid.View
                 }
                 ((ArrayAdapter)ListAdapter).NotifyDataSetChanged();
             });
+        }
+
+        public override bool OnOptionsItemSelected(ActionbarSherlock.View.IMenuItem p0)
+        {
+            var miTitle = p0.TitleFormatted.ToString();
+            if (miTitle == Title)
+            {
+                // App icon in action bar clicked; go up
+                SetResult(Result.Canceled);
+                Finish();
+                return true;
+            }
+            return base.OnOptionsItemSelected(p0);
         }
 
         protected override void OnListItemClick(ListView l, Android.Views.View v, int position, long id)
