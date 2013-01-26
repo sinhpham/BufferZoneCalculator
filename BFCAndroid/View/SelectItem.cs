@@ -15,7 +15,7 @@ using BFCCore.DataLayer;
 namespace BFCAndroid.View
 {
     [Activity]
-    public class SelectItem : ListActivity
+    public class SelectItem : ActionbarSherlock.App.SherlockListActivity
     {
         protected override void OnCreate(Bundle bundle)
         {

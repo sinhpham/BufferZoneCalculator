@@ -17,27 +17,26 @@ using BFCCore.ServiceAccessLayer;
 namespace BFCAndroid
 {
     [Activity(Label = "Buffer Zone Calculator", MainLauncher = true, Icon = "@drawable/icon")]
-    public class Activity1 : Activity
+    public class Activity1 : ActionbarSherlock.App.SherlockActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
         }
 
         const int Pick_Manufacturer = 0;
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
+        public override bool OnCreateOptionsMenu(ActionbarSherlock.View.IMenu p0)
         {
-            menu.Add("update");
+            p0.Add(new Java.Lang.String("update"));
             return true;
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        public override bool OnOptionsItemSelected(ActionbarSherlock.View.IMenuItem p0)
         {
-            var text = item.TitleFormatted.ToString();
+            var text = p0.TitleFormatted.ToString();
             switch (text)
             {
                 case "update":
@@ -45,12 +44,12 @@ namespace BFCAndroid
                     break;
                 default:
                     {
-                        var toast = Toast.MakeText(this, item.TitleFormatted, ToastLength.Long);
+                        var toast = Toast.MakeText(this, p0.TitleFormatted, ToastLength.Long);
                         toast.Show();
                     }
                     break;
             }
-            return base.OnOptionsItemSelected(item);
+            return base.OnOptionsItemSelected(p0);
         }
 
         private void UpdateDatabase()
