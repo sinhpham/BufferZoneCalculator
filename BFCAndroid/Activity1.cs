@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using BFCCore.BusinessLayer;
 using Java.Interop;
 using BFCCore.ServiceAccessLayer;
+using ActionbarSherlock.App;
 
 namespace BFCAndroid
 {
@@ -22,8 +23,32 @@ namespace BFCAndroid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+            //SupportActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(new Android.Graphics.Color(255, 255, 255)));
+
+            var choices = new string[] { "Ground", "Aerial", "blah", "blah" };
+            var adap = new ArrayAdapter<string>(SupportActionBar.ThemedContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, choices);
+
+            SupportActionBar.NavigationMode = ActionBar.NavigationModeList;
+            var l = new TListener();
+            l.currAct = this;
+            SupportActionBar.SetListNavigationCallbacks(adap, l);
+
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
+        }
+
+        class TListener : Java.Lang.Object, ActionBar.IOnNavigationListener
+        {
+            public Activity currAct { get; set; }
+
+            public bool OnNavigationItemSelected(int p0, long p1)
+            {
+                var t = string.Format("p0: {0}, p1: {1}", p0, p1);
+                Toast.MakeText(currAct, t, ToastLength.Long);
+                return true;
+            }
         }
 
         const int Pick_Manufacturer = 0;
@@ -231,23 +256,6 @@ namespace BFCAndroid
                 ad.Dismiss();
                 selectedAction(list[pos]);
             }).Create().Show();
-        }
-
-        [Export]
-        public void AppMethodClicked(Android.Views.View v)
-        {
-            var appMethods = new string[] {
-                "Ground",
-                "Aerial",
-                "blah",
-                "blah"
-            };
-            CreateSelectDialog<string>(appMethods, x => x, "Choose application method", selected =>
-            {
-                var b = (Button)v;
-                b.Text = selected;
-                RefreshResult();
-            });
         }
 
         [Export]

@@ -12,16 +12,6 @@
         p1:focusableInTouchMode="true"
         p1:id="@+id/relativeLayout1">
         <TextView
-            p1:text="Application method"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/textView1" />
-        <Button
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:onClick="AppMethodClicked" />
-        <TextView
             p1:text="Label spray quality"
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
