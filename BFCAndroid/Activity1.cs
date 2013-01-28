@@ -25,10 +25,9 @@ namespace BFCAndroid
             base.OnCreate(bundle);
 
             SupportActionBar.SetDisplayShowTitleEnabled(false);
-            //SupportActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(new Android.Graphics.Color(255, 255, 255)));
 
             var choices = new string[] { "Ground", "Aerial", "blah", "blah" };
-            var adap = new ArrayAdapter<string>(SupportActionBar.ThemedContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, choices);
+            var adap = new ArrayAdapter<string>(SupportActionBar.ThemedContext, Resource.Layout.sherlock_spinner_dropdown_item, choices);
 
             SupportActionBar.NavigationMode = ActionBar.NavigationModeList;
             var l = new TListener();
