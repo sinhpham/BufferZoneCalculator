@@ -10,7 +10,7 @@
         p1:orientation="vertical"
         p1:focusable="true"
         p1:focusableInTouchMode="true"
-        p1:id="@+id/relativeLayout1">
+        p1:id="@+id/rootLayout1">
         <TextView
             p1:text="Label spray quality"
             p1:textAppearance="?android:attr/textAppearanceLarge"

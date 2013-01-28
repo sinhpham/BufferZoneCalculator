@@ -30,22 +30,21 @@ namespace BFCAndroid
             var adap = new ArrayAdapter<string>(SupportActionBar.ThemedContext, Resource.Layout.sherlock_spinner_dropdown_item, choices);
 
             SupportActionBar.NavigationMode = ActionBar.NavigationModeList;
-            var l = new TListener();
-            l.currAct = this;
-            SupportActionBar.SetListNavigationCallbacks(adap, l);
+            var abddl = new ActionBarDropDownListener();
+            abddl.currAct = this;
+            SupportActionBar.SetListNavigationCallbacks(adap, abddl);
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
         }
 
-        class TListener : Java.Lang.Object, ActionBar.IOnNavigationListener
+        class ActionBarDropDownListener : Java.Lang.Object, ActionBar.IOnNavigationListener
         {
-            public Activity currAct { get; set; }
+            public SherlockActivity currAct { get; set; }
 
             public bool OnNavigationItemSelected(int p0, long p1)
             {
-                var t = string.Format("p0: {0}, p1: {1}", p0, p1);
-                Toast.MakeText(currAct, t, ToastLength.Long);
+                // TODO: change view according to selected item.
                 return true;
             }
         }
