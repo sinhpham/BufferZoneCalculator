@@ -22,7 +22,6 @@ namespace BFCAndroid.View
             base.OnCreate(bundle);
 
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
             // Create your application here
             SetContentView(Resource.Layout.SelectItem);
 

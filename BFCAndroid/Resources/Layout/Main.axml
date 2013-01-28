@@ -1,112 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:p1="http://schemas.android.com/apk/res/android"
-    p1:layout_width="fill_parent"
-    p1:layout_height="fill_parent">
-    <LinearLayout
-        p1:minWidth="25px"
-        p1:minHeight="25px"
-        p1:layout_width="fill_parent"
-        p1:layout_height="fill_parent"
-        p1:orientation="vertical"
-        p1:focusable="true"
-        p1:focusableInTouchMode="true"
-        p1:id="@+id/rootLayout1">
-        <TextView
-            p1:text="Label spray quality"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/textView2" />
-        <Button
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:onClick="LabelSprayClicked" />
-        <TextView
-            p1:text="Buffer zone aquatic"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView2"
-            p1:id="@+id/textView3" />
-        <EditText
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:inputType="number"
-            p1:id="@+id/editBfAquatic" />
-        <TextView
-            p1:text="Buffer zone terrestrial"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView3"
-            p1:id="@+id/textView4" />
-        <EditText
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:inputType="number"
-            p1:id="@+id/editBfTerrestrial" />
-        <TextView
-            p1:text="Boom height"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView4"
-            p1:id="@+id/textView5" />
-        <Button
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:onClick="BoomHeightClicked" />
-        <TextView
-            p1:text="Wind speed"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView5"
-            p1:id="@+id/textView6" />
-        <Button
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:onClick="WindSpeedClicked" />
-        <LinearLayout
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content">
-            <TextView
-                p1:text="Spray quality"
-                p1:textAppearance="?android:attr/textAppearanceLarge"
-                p1:layout_width="wrap_content"
-                p1:layout_height="wrap_content"
-                p1:layout_below="@id/textView6"
-                p1:id="@+id/textView7" />
-            <Button
-                p1:text="calc"
-                p1:layout_width="100dp"
-                p1:layout_height="wrap_content"
-                p1:id="@+id/addProblemButton"
-                p1:onClick="SprayQualityCaclClicked" />
-        </LinearLayout>
-        <Button
-            p1:layout_width="250dp"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/sprayQualityButton"
-            p1:onClick="SprayQualityClicked" />
-        <TextView
-            p1:text="Result"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView7"
-            p1:id="@+id/textView8" />
-        <TextView
-            p1:text="Buffer zone aquatic:"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="fill_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/resBfAquaticTextView" />
-        <TextView
-            p1:text="Buffer zone terrestrial:"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="fill_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/resBfTerrestrialTextView" />
-    </LinearLayout>
-</ScrollView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <TextView
+        android:text="Buffer zone calculator demo program"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1" />
+    <ImageButton
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="StartClicked"
+        android:id="@+id/imageButton1" />
+    <ImageButton
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="HelpClicked"
+        android:id="@+id/imageButton2" />
+    <ImageButton
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="AboutClicked"
+        android:id="@+id/imageButton3" />
+</LinearLayout>

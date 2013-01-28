@@ -1,29 +1,33 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.OS;
-using System.Threading.Tasks;
-using BFCCore.DataLayer;
-using System.Collections.Generic;
-using BFCCore.BusinessLayer;
 using Java.Interop;
+using BFCCore.DataLayer;
+using BFCCore.BusinessLayer;
+using System.Threading.Tasks;
 using BFCCore.ServiceAccessLayer;
 using ActionbarSherlock.App;
 
-namespace BFCAndroid
+namespace BFCAndroid.View
 {
-    [Activity(Label = "Buffer Zone Calculator", MainLauncher = true, Icon = "@drawable/icon")]
-    public class Activity1 : ActionbarSherlock.App.SherlockActivity
+    [Activity(Label = "Buffer zone calculator")]
+    public class Calc : SherlockActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+
+            // Create your application here
             SupportActionBar.SetDisplayShowTitleEnabled(false);
 
             var choices = new string[] { "Ground", "Aerial", "blah", "blah" };
@@ -34,8 +38,7 @@ namespace BFCAndroid
             abddl.currAct = this;
             SupportActionBar.SetListNavigationCallbacks(adap, abddl);
 
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.Calc);
         }
 
         class ActionBarDropDownListener : Java.Lang.Object, ActionBar.IOnNavigationListener
@@ -60,6 +63,11 @@ namespace BFCAndroid
         public override bool OnOptionsItemSelected(ActionbarSherlock.View.IMenuItem p0)
         {
             var text = p0.TitleFormatted.ToString();
+            if (text == Title)
+            {
+                Finish();
+                return true;
+            }
             switch (text)
             {
                 case "update":
@@ -72,7 +80,7 @@ namespace BFCAndroid
                     }
                     break;
             }
-            return base.OnOptionsItemSelected(p0);
+            return true;
         }
 
         private void UpdateDatabase()
@@ -328,4 +336,3 @@ namespace BFCAndroid
         }
     }
 }
-
