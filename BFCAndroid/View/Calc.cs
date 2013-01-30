@@ -15,13 +15,14 @@ using BFCCore.BusinessLayer;
 using System.Threading.Tasks;
 using BFCCore.ServiceAccessLayer;
 using ActionbarSherlock.App;
+using Com.Slidingmenu.Lib.App;
 
 namespace BFCAndroid.View
 {
-    [Activity(Label = "Buffer zone calculator")]
-    public class Calc : SherlockActivity
+    [Activity(Label = "Buffer zone calculator", MainLauncher=true)]
+    public class Calc : SlidingActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        public override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
@@ -39,6 +40,13 @@ namespace BFCAndroid.View
             SupportActionBar.SetListNavigationCallbacks(adap, abddl);
 
             SetContentView(Resource.Layout.Calc);
+            SetBehindContentView(Resource.Layout.Main);
+
+            SlidingMenu.SetShadowWidthRes(Resource.Dimension.SlidingMenuShadowWidth);
+            SlidingMenu.SetShadowDrawable(Resource.Drawable.SlidingMenuShadow);
+            SlidingMenu.SetBehindOffsetRes(Resource.Dimension.SlidingmenuOffset);
+            SlidingMenu.SetFadeDegree(0.35f);
+            SlidingMenu.TouchModeAbove = Com.Slidingmenu.Lib.SlidingMenu.TouchmodeFullscreen;
         }
 
         class ActionBarDropDownListener : Java.Lang.Object, ActionBar.IOnNavigationListener

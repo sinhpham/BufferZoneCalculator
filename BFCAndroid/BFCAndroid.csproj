@@ -50,6 +50,9 @@
     <Reference Include="Mono.Android.Export" />
     <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="mscorlib" />
+    <Reference Include="SlidingMenu">
+      <HintPath>..\libs\SlidingMenu.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -90,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\Values\Dimensions.xml" />
+    <AndroidResource Include="Resources\Drawable\SlidingMenuShadow.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
