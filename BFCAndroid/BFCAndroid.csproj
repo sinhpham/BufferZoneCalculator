@@ -99,7 +99,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\AndroidManifest.xml" />
+    <Content Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <AndroidResource Include="Resources\Values\Dimensions.xml" />
     <AndroidResource Include="Resources\Drawable\SlidingMenuShadow.xml" />
   </ItemGroup>

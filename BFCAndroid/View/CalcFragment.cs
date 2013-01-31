@@ -21,14 +21,44 @@ using Android.Support.V4.App;
 namespace BFCAndroid.View
 {
     [Activity(Label = "Buffer zone calculator")]
-    public class CalcFragment : Fragment
+    public class CalcFragment : SherlockFragment
     {
-        public override Android.Views.View OnCreateView(LayoutInflater p0, ViewGroup p1, Bundle p2)
+        public override void OnCreate(Bundle p0)
         {
-            return p0.Inflate(Resource.Layout.CalcFragment, p1, false);
+            SetHasOptionsMenu(true);
+            base.OnCreate(p0);
         }
 
         public const int Pick_Manufacturer = 0;
+
+        public override Android.Views.View OnCreateView(LayoutInflater p0, ViewGroup p1, Bundle p2)
+        {
+            var ab = SherlockActivity.SupportActionBar;
+            ab.NavigationMode = ActionBar.NavigationModeStandard;
+            ab.SetDisplayShowTitleEnabled(false);
+            Activity.Title = "Calc";
+
+            var choices = new string[] { "Ground", "Aerial", "blah", "blah" };
+            var adap = new ArrayAdapter<string>(ab.ThemedContext, Resource.Layout.sherlock_spinner_dropdown_item, choices);
+
+            ab.NavigationMode = ActionBar.NavigationModeList;
+            var abddl = new ActionBarDropDownListener();
+            abddl.currAct = SherlockActivity;
+            ab.SetListNavigationCallbacks(adap, abddl);
+
+            return p0.Inflate(Resource.Layout.CalcFragment, p1, false);
+        }
+
+        class ActionBarDropDownListener : Java.Lang.Object, ActionBar.IOnNavigationListener
+        {
+            public SherlockFragmentActivity currAct { get; set; }
+
+            public bool OnNavigationItemSelected(int p0, long p1)
+            {
+                // TODO: change view according to selected item.
+                return true;
+            }
+        }
 
         private void CreateSelectDialog<T>(IList<T> list, Func<T, string> display, string title, Action<T> selectedAction)
         {
@@ -45,6 +75,164 @@ namespace BFCAndroid.View
                 ad.Dismiss();
                 selectedAction(list[pos]);
             }).Create().Show();
+        }
+
+        public override void OnCreateOptionsMenu(ActionbarSherlock.View.IMenu p0, ActionbarSherlock.View.MenuInflater p1)
+        {
+            p0.Clear();
+            p0.Add(new Java.Lang.String("Update"));
+            base.OnCreateOptionsMenu(p0, p1);
+        }
+
+        public override bool OnOptionsItemSelected(ActionbarSherlock.View.IMenuItem p0)
+        {
+            var text = p0.TitleFormatted.ToString();
+            if (text == Activity.Title)
+            {
+                ((SlidingFragmentActivity)Activity).SlidingMenu.ShowMenu();
+                return true;
+            }
+            switch (text)
+            {
+                case "Update":
+                    UpdateDatabase();
+                    break;
+                default:
+                    {
+                        var toast = Toast.MakeText(Activity, p0.TitleFormatted, ToastLength.Long);
+                        toast.Show();
+                    }
+                    break;
+            }
+            return base.OnOptionsItemSelected(p0);
+        }
+
+        private void UpdateDatabase()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                BFCDatabase.DropTables();
+                BFCDatabase.CreateTables();
+
+                //var n = new BFCNetwork();
+                //n.GetSprayQuality(data =>
+                //{
+                //    BFCDatabase.AddToDb(data);
+                //    Activity.RunOnUiThread(() =>
+                //    {
+                //        Toast.MakeText(Activity, string.Format("Done updating {0}", data.First().GetType().Name), ToastLength.Short).Show();
+                //    });
+                //});
+
+                //n.GetLabelSprayQuality(data =>
+                //{
+                //    BFCDatabase.AddToDb(data);
+                //    Activity.RunOnUiThread(() =>
+                //    {
+                //        Toast.MakeText(Activity, string.Format("Done updating {0}", data.First().GetType().Name), ToastLength.Short).Show();
+                //    });
+                //});
+
+                //n.GetBoomHeight(data =>
+                //{
+                //    BFCDatabase.AddToDb(data);
+                //    Activity.RunOnUiThread(() =>
+                //    {
+                //        Toast.MakeText(Activity, string.Format("Done updating {0}", data.First().GetType().Name), ToastLength.Short).Show();
+                //    });
+                //});
+
+                //n.GetWindSpeed(data =>
+                //{
+                //    BFCDatabase.AddToDb(data);
+                //    Activity.RunOnUiThread(() =>
+                //    {
+                //        Toast.MakeText(Activity, string.Format("Done updating {0}", data.First().GetType().Name), ToastLength.Short).Show();
+                //    });
+                //});
+
+                //n.GetMultiplier(data =>
+                //{
+                //    BFCDatabase.AddToDb(data);
+                //    Activity.RunOnUiThread(() =>
+                //    {
+                //        Toast.MakeText(Activity, string.Format("Done updating {0}", data.First().GetType().Name), ToastLength.Short).Show();
+                //    });
+                //});
+
+                //var sprayQualitys = new List<SprayQuality> {
+                //    new SprayQuality{Id = 1, Name = "Coarse"},
+                //    new SprayQuality{Id = 2, Name = "Medium"},
+                //    new SprayQuality{Id = 3, Name = "Fine"}
+                //};
+                //BFCDatabase.AddToDb(sprayQualitys);
+
+                //var windSpeeds = new List<WindSpeed> {
+                //    new WindSpeed{Id = 1, Max = 8, Min = 1},
+                //    new WindSpeed{Id = 2, Max = 16, Min = 9},
+                //    new WindSpeed{Id = 3, Max = 25, Min = 17}
+                //};
+                //BFCDatabase.AddToDb(windSpeeds);
+
+                //var boomHeights = new List<BoomHeight>{
+                //    new BoomHeight{Id = 1, Name = "Low"},
+                //    new BoomHeight{Id = 2, Name = "Medium"},
+                //    new BoomHeight{Id = 3, Name = "High"}
+                //};
+                //BFCDatabase.AddToDb(boomHeights);
+
+                //var labelSprayQualitys = new List<LabelSprayQuality> {
+                //    new LabelSprayQuality{Id = 1, Name = "Coarse"},
+                //    new LabelSprayQuality{Id = 2, Name = "Medium"},
+                //    new LabelSprayQuality{Id = 3, Name = "Fine"}
+                //};
+                //BFCDatabase.AddToDb(labelSprayQualitys);
+
+                var manufacturers = new List<Manufacturer> {
+                    new Manufacturer{Id = 1, Name = "Tee jet"}
+                };
+                BFCDatabase.AddToDb(manufacturers);
+
+                var nozzle = new List<Nozzle> {
+                    new Nozzle{Id = 1, ManufacturerId = 1, Name = "abc"},
+                    new Nozzle{Id = 2, ManufacturerId = 1, Name = "bcd"},
+                    new Nozzle{Id = 3, ManufacturerId = 1, Name = "cde"},
+                };
+                BFCDatabase.AddToDb(nozzle);
+
+                var pressure = new List<Pressure> {
+                    new Pressure{Id = 1, NozzleId = 1, Value = 15},
+                    new Pressure{Id = 2, NozzleId = 1, Value = 25},
+                    new Pressure{Id = 3, NozzleId = 1, Value = 35},
+                };
+                BFCDatabase.AddToDb(pressure);
+
+                var wf = new List<WaterFlow> {
+                    new WaterFlow{Id = 1, NozzleId = 1, Value = "wf1"},
+                    new WaterFlow{Id = 2, NozzleId = 1, Value = "wf2"},
+                    new WaterFlow{Id = 3, NozzleId = 1, Value = "wf3"},
+                };
+                BFCDatabase.AddToDb(wf);
+
+                var csq = new List<CalcSprayQuality> {
+                    new CalcSprayQuality{WaterFlowId = 1, PressureId = 1, SprayQualityId = 1},
+                    new CalcSprayQuality{WaterFlowId = 2, PressureId = 2, SprayQualityId = 2},
+                    new CalcSprayQuality{WaterFlowId = 3, PressureId = 3, SprayQualityId = 3},
+                };
+                BFCDatabase.AddToDb(csq);
+
+                //var multi = new List<Multiplier> {
+                //    new Multiplier{SprayQualityId = 1, LabelSprayQualityId = 1, BoomHeightId = 1, WindSpeedId = 1, Value = 2},
+                //    new Multiplier{SprayQualityId = 2, LabelSprayQualityId = 2, BoomHeightId = 2, WindSpeedId = 2, Value = 4},
+                //    new Multiplier{SprayQualityId = 3, LabelSprayQualityId = 3, BoomHeightId = 3, WindSpeedId = 3, Value = 8},
+                //};
+                //BFCDatabase.AddToDb(multi);
+
+                Activity.RunOnUiThread(() =>
+                {
+                    Toast.MakeText(Activity, "Done updating database", ToastLength.Long).Show();
+                });
+            });
         }
 
         private void RefreshResult()
