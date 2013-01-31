@@ -111,8 +111,8 @@ namespace BFCAndroid.View
         {
             Task.Factory.StartNew(() =>
             {
-                BFCDatabase.DropTables();
-                BFCDatabase.CreateTables();
+                //BFCDatabase.DropTables();
+                //BFCDatabase.CreateTables();
 
                 //var n = new BFCNetwork();
                 //n.GetSprayQuality(data =>
@@ -160,73 +160,40 @@ namespace BFCAndroid.View
                 //    });
                 //});
 
-                //var sprayQualitys = new List<SprayQuality> {
-                //    new SprayQuality{Id = 1, Name = "Coarse"},
-                //    new SprayQuality{Id = 2, Name = "Medium"},
-                //    new SprayQuality{Id = 3, Name = "Fine"}
+                //var manufacturers = new List<Manufacturer> {
+                //    new Manufacturer{Id = 1, Name = "Tee jet"}
                 //};
-                //BFCDatabase.AddToDb(sprayQualitys);
+                //BFCDatabase.AddToDb(manufacturers);
 
-                //var windSpeeds = new List<WindSpeed> {
-                //    new WindSpeed{Id = 1, Max = 8, Min = 1},
-                //    new WindSpeed{Id = 2, Max = 16, Min = 9},
-                //    new WindSpeed{Id = 3, Max = 25, Min = 17}
+                //var nozzle = new List<Nozzle> {
+                //    new Nozzle{Id = 1, ManufacturerId = 1, Name = "abc"},
+                //    new Nozzle{Id = 2, ManufacturerId = 1, Name = "bcd"},
+                //    new Nozzle{Id = 3, ManufacturerId = 1, Name = "cde"},
                 //};
-                //BFCDatabase.AddToDb(windSpeeds);
+                //BFCDatabase.AddToDb(nozzle);
 
-                //var boomHeights = new List<BoomHeight>{
-                //    new BoomHeight{Id = 1, Name = "Low"},
-                //    new BoomHeight{Id = 2, Name = "Medium"},
-                //    new BoomHeight{Id = 3, Name = "High"}
+                //var pressure = new List<Pressure> {
+                //    new Pressure{Id = 1, NozzleId = 1, Value = 15},
+                //    new Pressure{Id = 2, NozzleId = 1, Value = 25},
+                //    new Pressure{Id = 3, NozzleId = 1, Value = 35},
                 //};
-                //BFCDatabase.AddToDb(boomHeights);
+                //BFCDatabase.AddToDb(pressure);
 
-                //var labelSprayQualitys = new List<LabelSprayQuality> {
-                //    new LabelSprayQuality{Id = 1, Name = "Coarse"},
-                //    new LabelSprayQuality{Id = 2, Name = "Medium"},
-                //    new LabelSprayQuality{Id = 3, Name = "Fine"}
+                //var wf = new List<WaterFlow> {
+                //    new WaterFlow{Id = 1, NozzleId = 1, Value = "wf1"},
+                //    new WaterFlow{Id = 2, NozzleId = 1, Value = "wf2"},
+                //    new WaterFlow{Id = 3, NozzleId = 1, Value = "wf3"},
                 //};
-                //BFCDatabase.AddToDb(labelSprayQualitys);
+                //BFCDatabase.AddToDb(wf);
 
-                var manufacturers = new List<Manufacturer> {
-                    new Manufacturer{Id = 1, Name = "Tee jet"}
-                };
-                BFCDatabase.AddToDb(manufacturers);
-
-                var nozzle = new List<Nozzle> {
-                    new Nozzle{Id = 1, ManufacturerId = 1, Name = "abc"},
-                    new Nozzle{Id = 2, ManufacturerId = 1, Name = "bcd"},
-                    new Nozzle{Id = 3, ManufacturerId = 1, Name = "cde"},
-                };
-                BFCDatabase.AddToDb(nozzle);
-
-                var pressure = new List<Pressure> {
-                    new Pressure{Id = 1, NozzleId = 1, Value = 15},
-                    new Pressure{Id = 2, NozzleId = 1, Value = 25},
-                    new Pressure{Id = 3, NozzleId = 1, Value = 35},
-                };
-                BFCDatabase.AddToDb(pressure);
-
-                var wf = new List<WaterFlow> {
-                    new WaterFlow{Id = 1, NozzleId = 1, Value = "wf1"},
-                    new WaterFlow{Id = 2, NozzleId = 1, Value = "wf2"},
-                    new WaterFlow{Id = 3, NozzleId = 1, Value = "wf3"},
-                };
-                BFCDatabase.AddToDb(wf);
-
-                var csq = new List<CalcSprayQuality> {
-                    new CalcSprayQuality{WaterFlowId = 1, PressureId = 1, SprayQualityId = 1},
-                    new CalcSprayQuality{WaterFlowId = 2, PressureId = 2, SprayQualityId = 2},
-                    new CalcSprayQuality{WaterFlowId = 3, PressureId = 3, SprayQualityId = 3},
-                };
-                BFCDatabase.AddToDb(csq);
-
-                //var multi = new List<Multiplier> {
-                //    new Multiplier{SprayQualityId = 1, LabelSprayQualityId = 1, BoomHeightId = 1, WindSpeedId = 1, Value = 2},
-                //    new Multiplier{SprayQualityId = 2, LabelSprayQualityId = 2, BoomHeightId = 2, WindSpeedId = 2, Value = 4},
-                //    new Multiplier{SprayQualityId = 3, LabelSprayQualityId = 3, BoomHeightId = 3, WindSpeedId = 3, Value = 8},
+                //var csq = new List<CalcSprayQuality> {
+                //    new CalcSprayQuality{WaterFlowId = 1, PressureId = 1, SprayQualityId = 1},
+                //    new CalcSprayQuality{WaterFlowId = 2, PressureId = 2, SprayQualityId = 2},
+                //    new CalcSprayQuality{WaterFlowId = 3, PressureId = 3, SprayQualityId = 3},
                 //};
-                //BFCDatabase.AddToDb(multi);
+                //BFCDatabase.AddToDb(csq);
+
+                BFCDatabase.CreateDummyData();
 
                 Activity.RunOnUiThread(() =>
                 {
@@ -237,7 +204,6 @@ namespace BFCAndroid.View
 
         private void RefreshResult()
         {
-
             var bfAquatic = -1;
             var okBfAquatic = int.TryParse(View.FindViewById<EditText>(Resource.Id.editBfAquatic).Text, out bfAquatic);
             var bfTerrestrial = -1;
