@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <Button
-        android:text="Home"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button1"
-        android:onClick="StartClicked" />
-    <Button
-        android:text="Help"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:onClick="HelpClicked" />
-    <Button
-        android:text="About"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button3"
-        android:onClick="AboutClicked" />
-</LinearLayout>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu_fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

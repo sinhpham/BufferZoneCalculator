@@ -17,6 +17,7 @@ using BFCCore.ServiceAccessLayer;
 using ActionbarSherlock.App;
 using Com.Slidingmenu.Lib.App;
 using Android.Support.V4.App;
+using ActionbarSherlock.View;
 
 namespace BFCAndroid.View
 {
@@ -81,6 +82,7 @@ namespace BFCAndroid.View
         {
             p0.Clear();
             p0.Add(new Java.Lang.String("Update"));
+
             base.OnCreateOptionsMenu(p0, p1);
         }
 

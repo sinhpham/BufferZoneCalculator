@@ -65,6 +65,7 @@
     <Compile Include="View\AboutFragment.cs" />
     <Compile Include="View\CalcFragment.cs" />
     <Compile Include="View\Main.cs" />
+    <Compile Include="View\MenuFragment.cs" />
     <Compile Include="View\SelectItem.cs" />
   </ItemGroup>
   <ItemGroup>

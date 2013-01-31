@@ -1,5 +1,5 @@
 ﻿<resources>
-  <dimen name="SlidingmenuOffset">200dp</dimen>
+  <dimen name="SlidingmenuOffset">100dp</dimen>
   <dimen name="SlidingMenuShadowWidth">15dp</dimen>
   <dimen name="SlidingMenuListPadding">1dp</dimen>
 </resources>
