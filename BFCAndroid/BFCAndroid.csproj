@@ -62,7 +62,8 @@
     <Compile Include="BFCAndroidGlobal.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\Calc.cs" />
+    <Compile Include="View\AboutFragment.cs" />
+    <Compile Include="View\CalcFragment.cs" />
     <Compile Include="View\Main.cs" />
     <Compile Include="View\SelectItem.cs" />
   </ItemGroup>
@@ -75,9 +76,15 @@
     <AndroidResource Include="Resources\Layout\Main.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Menu.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\AboutFragment.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Layout\Calc.axml" />
+    <AndroidResource Include="Resources\Layout\CalcFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
