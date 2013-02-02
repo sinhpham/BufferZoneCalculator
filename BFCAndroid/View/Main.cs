@@ -122,7 +122,7 @@ namespace BFCAndroid.View
                     {
                         var aFrag = new AboutFragment();
                         var transaction = SupportFragmentManager.BeginTransaction();
-                        transaction.Replace(Resource.Id.fragment_container, aFrag, CalcFragTag);
+                        transaction.Replace(Resource.Id.fragment_container, aFrag);
                         transaction.Commit();
                         SlidingMenu.ShowContent();
                     }
